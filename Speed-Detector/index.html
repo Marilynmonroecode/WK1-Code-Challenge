@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demerit Points Calculator</title>
+    <script>
+        // Function to calculate demerit points based on speed
+        function calculateDemeritPoints() {
+            // Prompt the user to enter the speed of the car
+            const input = prompt("Enter the speed of the car (in km/h):");
+            // Parse the input to a floating-point number
+            const speed = parseFloat(input);
+
+            // Define the speed limit
+            const speedLimit = 70;
+            // Check if the speed is a valid number
+            if (isNaN(speed) || speed < 0) {
+                alert("Please enter a valid speed.");
+                return; // Exit the function if input is invalid
+            }
+
+            // Check if the speed is below the speed limit
+            if (speed < speedLimit) {
+                alert("Ok"); // Print "Ok" if speed is below 70
+            } else {
+                // Calculate the amount of speed over the limit
+                const excessSpeed = speed - speedLimit;
+                // Calculate demerit points (1 point for every 5 km/h over the limit)
+                const demeritPoints = Math.floor(excessSpeed / 5);
+                
+                // Print the total number of demerit points
+                alert(`Points: ${demeritPoints}`);
+
+                // Check if the demerit points exceed the threshold for license suspension
+                if (demeritPoints > 12) {
+                    alert("License suspended"); // Print suspension message if points > 12
+                }
+            }
+        }
+    </script>
+</head>
+<body onload="calculateDemeritPoints()">
+    <!-- The body will trigger the calculateDemeritPoints function on load -->
+</body>
+</html>
