@@ -24,7 +24,7 @@ Use Javascript to wire down the solution.
 ```
 
 # Live Link
-[Git](gh-pages link)
+[Git](gh-pages https://marilynmonroecode.github.io/WK1-Code-Challenge/)
 
 ## Technologies used
 HTML
