@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Salary Calculator</title>
+    <script>
+        // Function to calculate the net salary
+        function calculateNetSalary() {
+            // Get basic salary and benefits from the user
+            const basicSalary = parseFloat(prompt("Enter basic salary (Ksh):"));
+            const benefits = parseFloat(prompt("Enter benefits (Ksh):"));
+
+            // Validate inputs to ensure they are non-negative numbers
+            if (isNaN(basicSalary) || isNaN(benefits) || basicSalary < 0 || benefits < 0) {
+                alert("Please enter valid non-negative numbers for salary and benefits.");
+                return; // Exit the function if inputs are invalid
+            }
+
+            // Calculate gross salary by summing basic salary and benefits
+            const grossSalary = basicSalary + benefits;
+
+            // Calculate PAYE (Tax) based on gross salary
+            const payee = calculatePAYE(grossSalary);
+            
+            // Calculate NHIF deductions based on gross salary
+            const nhifDeductions = calculateNHIF(grossSalary);
+            
+            // Calculate NSSF deductions based on basic salary
+            const nssfDeductions = calculateNSSF(basicSalary);
+
+            // Calculate net salary by subtracting deductions from gross salary
+            const netSalary = grossSalary - (payee + nhifDeductions + nssfDeductions);
+
+            // Output the results to the user
+            alert(`Gross Salary: Ksh ${grossSalary.toFixed(2)}\n` +
+                  `PAYE (Tax): Ksh ${payee.toFixed(2)}\n` +
+                  `NHIF Deductions: Ksh ${nhifDeductions.toFixed(2)}\n` +
+                  `NSSF Deductions: Ksh ${nssfDeductions.toFixed(2)}\n` +
+                  `Net Salary: Ksh ${netSalary.toFixed(2)}`);
+        }
+
+        // Function to calculate PAYE based on the gross salary
+        function calculatePAYE(grossSalary) {
+            const monthlyLimit = 24000; // Monthly personal relief
+            let taxableIncome = grossSalary;
+
+            // Initialize PAYE to 0
+            let payee = 0;
+            // Calculate PAYE based on different income brackets
+            if (taxableIncome > 800000) {
+                payee += (taxableIncome - 800000) * 0.35; // 35% tax for income above Ksh 800,000
+                taxableIncome = 800000;
+            }
+            if (taxableIncome > 500000) {
+                payee += (taxableIncome - 500000) * 0.325; // 32.5% tax for income between Ksh 500,001 and Ksh 800,000
+                taxableIncome = 500000;
+            }
+            if (taxableIncome > 32333) {
+                payee += (taxableIncome - 32333) * 0.30; // 30% tax for income between Ksh 32,334 and Ksh 500,000
+                taxableIncome = 32333;
+            }
+            if (taxableIncome > 24000) {
+                payee += (taxableIncome - 24000) * 0.25; // 25% tax for income between Ksh 24,001 and Ksh 32,333
+                taxableIncome = 24000;
+            }
+            payee += taxableIncome * 0.10; // 10% tax for the first Ksh 24,000
+            
+            return payee - monthlyLimit; // Subtract personal relief
+        }
+
+        // Function to calculate NHIF deductions based on gross salary
+        function calculateNHIF(grossSalary) {
+            // Determine NHIF deduction based on the gross salary brackets
+            if (grossSalary < 6000) return 150; // Ksh 150 for salaries below Ksh 6,000
+            if (grossSalary < 8000) return 300; // Ksh 300 for salaries Ksh 6,000 - Ksh 7,999
+            if (grossSalary < 12000) return 400; // Ksh 400 for salaries Ksh 8,000 - Ksh 11,999
+            if (grossSalary < 15000) return 500; // Ksh 500 for salaries Ksh 12,000 - Ksh 14,999
+            if (grossSalary < 20000) return 600; // Ksh 600 for salaries Ksh 15,000 - Ksh 19,999
+            if (grossSalary < 25000) return 750; // Ksh 750 for salaries Ksh 20,000 - Ksh 24,999
+            if (grossSalary < 30000) return 850; // Ksh 850 for salaries Ksh 25,000 - Ksh 29,999
+            if (grossSalary < 35000) return 900; // Ksh 900 for salaries Ksh 30,000 - Ksh 34,999
+            if (grossSalary < 40000) return 950; // Ksh 950 for salaries Ksh 35,000 - Ksh 39,999
+            if (grossSalary < 45000) return 1100; // Ksh 1,100 for salaries Ksh 40,000 - Ksh 44,999
+            if (grossSalary < 50000) return 1200; // Ksh 1,200 for salaries Ksh 45,000 - Ksh 49,999
+            if (grossSalary < 60000) return 1300; // Ksh 1,300 for salaries Ksh 50,000 - Ksh 59,999
+            if (grossSalary < 70000) return 1400; // Ksh 1,400 for salaries Ksh 60,000 - Ksh 69,999
+            if (grossSalary < 80000) return 1500; // Ksh 1,500 for salaries Ksh 70,000 - Ksh 79,999
+            if (grossSalary < 90000) return 1600; // Ksh 1,600 for salaries Ksh 80,000 - Ksh 89,999
+            return 1700; // Ksh 1,700 for salaries Ksh 90,000 and above
+        }
+
+        // Function to calculate NSSF deductions based on basic salary
+        function calculateNSSF(basicSalary) {
+            // Calculate Tier I contribution capped at Ksh 420 (6% of Ksh 7,000)
+            const tierIContribution = Math.min(basicSalary * 0.06, 420);
+            // Calculate Tier II contribution for salary above Ksh 7,000, capped at Ksh 36,000
+            const tierIIContribution = Math.max(0, Math.min(basicSalary - 7000, 29000)) * 0.06;
+            // Return total NSSF contribution
+            return tierIContribution + tierIIContribution;
+        }
+    </script>
+</head>
+<body onload="calculateNetSalary()">
+    <!-- The body will trigger the calculateNetSalary function on load -->
+</body>
+</html>

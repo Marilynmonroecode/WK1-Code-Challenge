@@ -5,7 +5,7 @@
 #### By *Marilyn Nduku Musyimi*
 
 ## Description
-It's a webpage that shows three different Java Script programs. The programs include a student grade generator that generates grades from student marks input, speed detector that tells wether below or above speed limit and net salary calculator that calculates an individual’s Net salary by getting the inputs of basic salary and benefits.
+It's a webpage that shows three different Java Script programs. The programs include a student grade generator that generates grades from student marks input (index), speed detector that tells wether below or above speed limit (index2) and net salary calculator that calculates an individual’s net salary by getting the inputs of basic salary and benefits (index3).
 
 ## Installation
 You create a new repository and clone it to local machine.
